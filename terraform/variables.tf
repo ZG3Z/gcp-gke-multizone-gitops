@@ -78,6 +78,11 @@ variable "max_node_count" {
   type        = number
 }
 
+variable "artifact_registry_repository" {
+  description = "Artifact Registry repository name"
+  type        = string
+}
+
 variable "labels" {
   description = "Labels to apply to all resources"
   type        = map(string)

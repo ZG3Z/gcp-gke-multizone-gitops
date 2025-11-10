@@ -1,7 +1,7 @@
 resource "google_service_account" "gke_nodes" {
   account_id   = "gke-nodes"
   display_name = "GKE Nodes Service Account"
-  description  = "Service account for GKE cluster nodes with minimal permissions"
+  description  = "Service account for GKE cluster nodes"
 }
 
 resource "google_project_iam_member" "gke_nodes_log_writer" {
@@ -26,4 +26,10 @@ resource "google_project_iam_member" "gke_nodes_artifact_registry_reader" {
   project = var.project_id
   role    = "roles/artifactregistry.reader"
   member  = "serviceAccount:${google_service_account.gke_nodes.email}"
+}
+
+resource "google_service_account_iam_member" "workload_identity_binding" {
+  service_account_id = google_service_account.gke_nodes.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "serviceAccount:${var.project_id}.svc.id.goog[default/fastapi-sa]"
 }

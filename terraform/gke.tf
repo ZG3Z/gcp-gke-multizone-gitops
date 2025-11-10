@@ -24,15 +24,15 @@ resource "google_container_cluster" "primary" {
 
   addons_config {
     http_load_balancing {
-      disabled = false # Enable GCE ingress controller
+      disabled = false
     }
 
     horizontal_pod_autoscaling {
-      disabled = false # Enable HPA
+      disabled = false
     }
 
     network_policy_config {
-      disabled = false # Enable network policy enforcement
+      disabled = false
     }
   }
 
