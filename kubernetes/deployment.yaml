@@ -16,7 +16,7 @@ spec:
       serviceAccountName: fastapi-sa
       containers:
       - name: fastapi
-        image: us-east1-docker.pkg.dev/levelup-edu-477216/app-images/fastapi-app:v2
+        image: us-east1-docker.pkg.dev/levelup-edu-477216/app-images/fastapi-app:latest
         ports:
         - containerPort: 8000
         env:

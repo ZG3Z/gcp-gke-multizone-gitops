@@ -1,7 +1,7 @@
 import os
 from google.cloud import secretmanager
 
-def get_secret(secret_id: str, project_id: str = None, version: str = "2"):
+def get_secret(secret_id: str, project_id: str = None, version: str = "latest"):
     if not project_id:
         project_id = os.getenv("PROJECT_ID")
     
