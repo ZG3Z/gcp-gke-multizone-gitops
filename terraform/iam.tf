@@ -11,11 +11,11 @@ resource "google_project_iam_member" "gke_nodes_roles" {
     "roles/monitoring.viewer",
     "roles/artifactregistry.reader",
   ])
-  
+
   project = var.project_id
   role    = each.key
   member  = "serviceAccount:${google_service_account.gke_nodes.email}"
-  
+
   depends_on = [
     google_service_account.gke_nodes,
     google_project_service.required_apis,
@@ -36,7 +36,7 @@ resource "google_service_account" "cloud_build" {
 
 resource "google_project_iam_member" "cloud_build_roles" {
   for_each = toset([
-    "roles/container.developer",
+    "roles/container.admin",
     "roles/storage.admin",
     "roles/artifactregistry.writer",
     "roles/logging.logWriter",
