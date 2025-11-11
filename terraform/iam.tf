@@ -28,6 +28,18 @@ resource "google_service_account_iam_member" "workload_identity_binding" {
   member             = "serviceAccount:${var.project_id}.svc.id.goog[default/fastapi-sa]"
 }
 
+resource "google_service_account" "app" {
+  account_id   = "fastapi-app"
+  display_name = "FastAPI App Service Account"
+  description  = "Service account for FastAPI pods with Workload Identity"
+}
+
+resource "google_secret_manager_secret_iam_member" "app_secret_access" {
+  secret_id = google_secret_manager_secret.db_password.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.app.email}"
+}
+
 resource "google_service_account" "cloud_build" {
   account_id   = "cloud-build-sa"
   display_name = "Cloud Build Service Account"
