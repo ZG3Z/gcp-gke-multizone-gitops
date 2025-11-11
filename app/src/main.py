@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 import socket
 import os
 
-from database import get_db, init_db, Item
-from secrets import get_secret
+from .database import get_db, init_db, Item 
+from .secrets import get_secret  
 
 app = FastAPI()
 
