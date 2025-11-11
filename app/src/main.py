@@ -7,6 +7,39 @@ app = FastAPI()
 
 data = {}
 
+zone_cache = None
+
+def get_zone_from_k8s():
+    global zone_cache
+    
+    if zone_cache:
+        return zone_cache
+    
+    node_name = os.getenv("NODE_NAME")
+    if not node_name:
+        return "unknown"
+    
+    try:
+        from kubernetes import client, config
+        
+        config.load_incluster_config()
+        
+        v1 = client.CoreV1Api()
+        node = v1.read_node(node_name)
+        
+        zone = node.metadata.labels.get("topology.kubernetes.io/zone", "unknown")
+        
+        zone_cache = zone
+        return zone
+    except Exception as e:
+        if "us-east1-b" in node_name:
+            return "us-east1-b"
+        elif "us-east1-c" in node_name:
+            return "us-east1-c"
+        elif "us-east1-d" in node_name:
+            return "us-east1-d"
+        return f"error:{str(e)}"
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -17,7 +50,8 @@ def root():
         "message": "FastAPI on GKE",
         "hostname": socket.gethostname(),
         "pod": os.getenv("POD_NAME", "unknown"),
-        "zone": os.getenv("ZONE", "unknown"),
+        "node": os.getenv("NODE_NAME", "unknown"),
+        "zone": get_zone_from_k8s(),
     }
 
 @app.get("/api/data")
