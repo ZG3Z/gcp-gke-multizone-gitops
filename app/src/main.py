@@ -9,7 +9,7 @@ data = {}
 
 zone_cache = None
 
-def get_zone_from_k8s():
+def get_zone():
     global zone_cache
     
     if zone_cache:
@@ -51,7 +51,8 @@ def root():
         "hostname": socket.gethostname(),
         "pod": os.getenv("POD_NAME", "unknown"),
         "node": os.getenv("NODE_NAME", "unknown"),
-        "zone": get_zone_from_k8s(),
+        "zone": get_zone(),
+        "version": "auto-deployed"
     }
 
 @app.get("/api/data")

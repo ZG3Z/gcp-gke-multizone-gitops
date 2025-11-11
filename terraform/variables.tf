@@ -87,3 +87,13 @@ variable "labels" {
   description = "Labels to apply to all resources"
   type        = map(string)
 }
+
+variable "github_owner" {
+  description = "GitHub repository owner (username or org)"
+  type        = string
+}
+
+variable "github_repo" {
+  description = "GitHub repository name"
+  type        = string
+}

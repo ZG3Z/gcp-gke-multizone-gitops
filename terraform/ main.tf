@@ -10,6 +10,7 @@ locals {
     "secretmanager.googleapis.com",
     "logging.googleapis.com",
     "monitoring.googleapis.com",
+    "cloudbuild.googleapis.com",
   ]
 }
 
@@ -21,4 +22,3 @@ resource "google_project_service" "required_apis" {
 
   disable_on_destroy = false
 }
-
