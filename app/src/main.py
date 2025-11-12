@@ -1,12 +1,27 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 import socket
 import os
+import logging
+import sys
+import json
 
 from .database import get_db, init_db, Item 
 from .secrets import get_secret  
 
+logging.basicConfig(level=logging.INFO, format='%(message)s', stream=sys.stdout)
+logger = logging.getLogger(__name__)
+
 app = FastAPI()
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    response = await call_next(request)
+    logger.info(json.dumps({
+        "message": "Request completed",
+        "status_code": response.status_code,
+    }))
+    return response
 
 @app.on_event("startup")
 def startup():
@@ -14,7 +29,6 @@ def startup():
         db_password = get_secret("db-password")
         os.environ["DB_PASSWORD"] = db_password
         init_db()
-
     except Exception as e:
         raise
 
