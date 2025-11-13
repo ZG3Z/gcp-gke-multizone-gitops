@@ -77,8 +77,7 @@ Enterprise-grade infrastructure on Google Cloud Platform demonstrating:
 │
 ├── docs/
 │   ├── ARCHITECTURE.md         # System design and decisions
-│   ├── COSTS.md                # Cost analysis and optimization
-│   └── DEPLOYMENT.md           # CI/CD details
+│   └── COSTS.md                # Cost analysis 
 │
 ├── .gitignore
 ├── cloudbuild.yaml            # Build pipeline configuration
